@@ -1,93 +1,75 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <canvas id=canvas width=1020 height=220 style="border: solid 1px blue; background-color: lightgray" ></canvas>
+    <canvas id=canvas width=1040 height=220 style="border: solid 2px blue; background-color: #d3d3d3" ></canvas>
 </body>
 </html>
 
 <script>
-    // style="background: lightgray"
-/*
-function generateScales(data, canvasWidth, canvasHeight, padding = 10) {
-    // Find min and max values for x and y axes
-    const xValues = data.map(d => d.x);
-    const yValues = data.map(d => d.y);
-    const minX = Math.min(...xValues);
-    const maxX = Math.max(...xValues);
-    const minY = Math.min(...yValues);
-    const maxY = Math.max(...yValues);
-
-    // Calculate scaling factors
-    const xScaleFactor = (canvasWidth - 2 * padding) / (maxX - minX);
-    const yScaleFactor = (canvasHeight - 2 * padding) / (maxY - minY);
-
-    // Generate x and y scales
-    function xScale(x) {
-        return padding + (x - minX) * xScaleFactor;
-    }
-
-    function yScale(y) {
-        return canvasHeight - padding - (y - minY) * yScaleFactor;
-    }
-
-    return { xScale, yScale };
-}
-  */
-
+ 
 const data = [ { x:0, y:80 },{ x:150, y:55 },{ x:400, y:30 },{ x:1000, y:5 }];
-const canvasWidth = 1000; // Example width
-const canvasHeight = 200; // Example height
-const padding = 20; // Example padding
-
-//const { xScale, yScale } = generateScales(data, canvasWidth, canvasHeight, padding);
-
-
 const canvas = document.getElementById('canvas')
 var ctx = canvas.getContext('2d')
 
+var newx = 20, newy = 0
+ctx.translate(newx, newy);
+
 ctx.lineWidth=1;
-//ctx.stroke();
-//ctx.fillStyle = "red";
-    
+   
 for (c of data) {
     ctx.beginPath()
-    ctx.strokeStyle = "blue";
-    ctx.lineTo(c.x, 200-(2*c.y));
     ctx.strokeStyle = "red";
-    ctx.arc(c.x, 200-(2*c.y), 3, 0, 2*Math.PI, true)
-    ctx.stroke();
-
-   
+    ctx.arc(c.x+20, 200-(2*c.y), 3, 0, 2*Math.PI, true)
+    ctx.stroke(); 
 }
-/*
+
+ctx.beginPath()
+ctx.strokeStyle = "blue";
+//ctx.moveTo(data[0].x, 200-data[0].y);
 for (c of data) {
-    ctx.strokeStyle = "blue";
-    ctx.lineTo(c.x, 200-(2*c.y));
-    ctx.strokeStyle = "blue";
-    ctx.moveTo(c.x, 200-(2*c.y));
+    ctx.lineTo(c.x+20, 200-(2*c.y));
+    ctx.moveTo(c.x+20, 200-(2*c.y));
     ctx.stroke();
-
 }
-*/
 
-for(var i = 0; i < 200; i += 20) {
+// Y axis grid
+
+for(var y = 0; y <= 220; y += 20) {
     ctx.strokeStyle = "gray";
     ctx.beginPath()
-    ctx.moveTo(0, 200-i);
-    ctx.lineTo(1020, 200-i);
+    ctx.moveTo(20, 200-y);
+    ctx.lineTo(1020, 200-y);
     ctx.stroke();
-
-
 }
 
-for(var i = 0; i < 1000; i += 100) {
+ctx.font = "12px serif";
+for(var x = 100; x < 1000; x += 100) {
+    ctx.strokeText(x/10, x+10, 212);
+}
+
+// X axis grid
+
+for(var i = 20; i <=1000; i += 100) {
     ctx.strokeStyle = "gray";
     ctx.beginPath()
     ctx.moveTo(i, 0);
-    ctx.lineTo(i, 220);
+    ctx.lineTo(i, 200);
     ctx.stroke();
-
-
 }
+
+ctx.font = "14px serif";
+for(var y = 0; y < 200; y += 40) {
+    ctx.strokeText(y/2, 0, 205-y);
+}
+
+var labelXposition = -100
+ctx.font = "15px serif";
+//ctx.lineWidth=2;
+
+ctx.save();
+ctx.rotate(-Math.PI/2);
+ctx.textAlign = "center";
+ctx.fillText("Light Level in %", labelXposition, -4);
+ctx.restore();
 
 </script>
