@@ -6,8 +6,6 @@ services:
     image: gwyncm/freeloader:24.02.20
     ports:
       - 8070:8070    
-    depends_on:
-      - redis
     environment:
       REDIS_HOST: redis
       TZ: 'America/New_York'
